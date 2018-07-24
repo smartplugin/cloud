@@ -1,0 +1,44 @@
+server:
+  port: 8083
+
+spring:
+  profiles:
+    include:
+   #  - redis #这里只写application-之后的名称。多个之间用逗号分隔
+  application:
+    name: item-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/leyou
+    username: root
+    password: server
+    driverClassName: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+mybatis:
+  type-aliases-package: com.leyou.item.bean
+  configuration:
+    mapUnderscoreToCamelCase: true
+eureka:
+  client:
+    service-url:  # EurekaServer地址
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true  # 当调用getHostname获取实例的hostname时，返回ip而不是host名称
+    ip-address: 127.0.0.1  # 指定自己的ip信息，不指定的话会自己寻找
+    instance-id: ${spring.application.name}:${server.port}
+ly:
+ interceptor:
+    test:
+      include: /test
+#      exclude:
+ jwt:
+     pubKeyPath: W:/data/rsa/rsa.pub
+     cookieName: LY_TOKEN
+
+logging:
+   level:
+     org.springframework: info
+     com.leyou: debug

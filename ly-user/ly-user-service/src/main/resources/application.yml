@@ -1,0 +1,27 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_center   #用户中心的数据表
+    username: root
+    password: server
+    driverClassName: com.mysql.jdbc.Driver
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+mybatis:
+  type-aliases-package: com.leyou.user.bean
+  configuration:
+      mapUnderscoreToCamelCase: true
+eureka:
+  client:
+    service-url:  # EurekaServer地址
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true  # 当调用getHostname获取实例的hostname时，返回ip而不是host名称
+    ip-address: 127.0.0.1  # 指定自己的ip信息，不指定的话会自己寻找
+    instance-id: ${spring.application.name}:${server.port}
